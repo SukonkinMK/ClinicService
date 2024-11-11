@@ -2,6 +2,7 @@
 using ClinicService.Models.Requests;
 using ClinicService.Services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ClinicService.Controllers
 {
@@ -17,7 +18,8 @@ namespace ClinicService.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult Create([FromBody] CreatePetRequest request)
+        [SwaggerOperation(OperationId = "PetCreate")]
+        public ActionResult<int> Create([FromBody] CreatePetRequest request)
         {
             int res = _petRepository.Create(new Pet
             {
@@ -29,7 +31,8 @@ namespace ClinicService.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult Update([FromBody] UpdatePetRequest request)
+        [SwaggerOperation(OperationId = "PetUpdate")]
+        public ActionResult<int> Update([FromBody] UpdatePetRequest request)
         {
             int res = _petRepository.Update(new Pet
             {
@@ -42,20 +45,23 @@ namespace ClinicService.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete([FromQuery] int petId)
+        [SwaggerOperation(OperationId = "PetDelete")]
+        public ActionResult<int> Delete([FromQuery] int petId)
         {
             int res =_petRepository.Delete(petId);
             return Ok(res);
         }
 
         [HttpGet("getAll")]
-        public IActionResult GetAll()
+        [SwaggerOperation(OperationId = "PetGetAll")]
+        public ActionResult<List<Pet>> GetAll()
         {
             return Ok(_petRepository.GetAll());
         }
 
         [HttpGet("get/{petId}")]
-        public IActionResult GetById([FromRoute] int petId)
+        [SwaggerOperation(OperationId = "PetGetById")]
+        public ActionResult<Pet> GetById([FromRoute] int petId)
         {
             return Ok(_petRepository.GetById(petId));
         }

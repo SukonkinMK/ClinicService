@@ -2,6 +2,7 @@
 using ClinicService.Models.Requests;
 using ClinicService.Services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ClinicService.Controllers
 {
@@ -17,7 +18,8 @@ namespace ClinicService.Controllers
         }
 
         [HttpPost("create")]
-        public IActionResult Create([FromBody] CreateConsultationRequest request)
+        [SwaggerOperation(OperationId = "ConsultationCreate")]
+        public ActionResult<int> Create([FromBody] CreateConsultationRequest request)
         {
             int res = _consultationRepository.Create(new Consultation
             {
@@ -30,7 +32,8 @@ namespace ClinicService.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult Update([FromBody] UpdateConsultationRequest request)
+        [SwaggerOperation(OperationId = "ConsultationUpdate")]
+        public ActionResult<int> Update([FromBody] UpdateConsultationRequest request)
         {
             int res = _consultationRepository.Update(new Consultation
             {
@@ -44,20 +47,23 @@ namespace ClinicService.Controllers
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete([FromQuery] int consultationId)
+        [SwaggerOperation(OperationId = "ConsultationDelete")]
+        public ActionResult<int> Delete([FromQuery] int consultationId)
         {
             int res = _consultationRepository.Delete(consultationId);
             return Ok(res);
         }
 
         [HttpGet("getAll")]
-        public IActionResult GetAll()
+        [SwaggerOperation(OperationId = "ConsultationGetAll")]
+        public ActionResult<List<Consultation>> GetAll()
         {
             return Ok(_consultationRepository.GetAll());
         }
 
         [HttpGet("get/{consultationId}")]
-        public IActionResult GetById([FromRoute] int consultationId)
+        [SwaggerOperation(OperationId = "ConsultationGetById")]
+        public ActionResult<Consultation> GetById([FromRoute] int consultationId)
         {
             return Ok(_consultationRepository.GetById(consultationId));
         }
